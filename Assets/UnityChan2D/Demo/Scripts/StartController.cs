@@ -25,9 +25,14 @@ public class StartController : MonoBehaviour
 
     void Awake()
     {
+        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
+        if (!liveCommentaryButtons)
+        {
+            Debug.Log ("Live Commentary Buttons could not be created.");
+        }
+
         Everyplay.FaceCamRecordingPermission += CheckForRecordingPermission;
         Everyplay.FaceCamRequestRecordingPermission();
-        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
     }
 
     void OnDestroy()
