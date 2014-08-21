@@ -24,23 +24,23 @@ public class StartController : MonoBehaviour
         }
     }
 
-	void OnGUI()
-	{
-		LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
-		if (!liveCommentaryButtons)
-		{
-			Debug.Log ("Live Commentary Buttons could not be created.");
-		}
-
-		if (GUI.Button(new Rect(Screen.width - 168, 32, 136, 136), shareReplayTexture, GUIStyle.none))
-		{
-			Everyplay.ShowWithPath("/feed/game");
-		}
-	}
+    void OnGUI()
+    {
+        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
+        if (!liveCommentaryButtons)
+        {
+            Debug.Log ("Live Commentary Buttons could not be created.");
+        }
+        
+        if (GUI.Button(new Rect(Screen.width - 168, 32, 136, 136), shareReplayTexture, GUIStyle.none))
+        {
+            Everyplay.ShowWithPath("/feed/game");
+        }
+    }
 
     void Awake()
     {
-		shareReplayTexture = (Texture2D)Resources.Load("watch-replay-button-example", typeof(Texture2D));
+        shareReplayTexture = (Texture2D)Resources.Load("watch-replay-button-example", typeof(Texture2D));
         Everyplay.FaceCamRecordingPermission += CheckForRecordingPermission;
         Everyplay.FaceCamRequestRecordingPermission();
     }
