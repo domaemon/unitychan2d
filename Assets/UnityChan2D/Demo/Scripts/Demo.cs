@@ -20,6 +20,47 @@ public class Demo : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        string liveFaceCamMode = PlayerPrefs.GetString("Live FaceCam Mode");
+        
+        if (Application.loadedLevelName == "World 1-1")
+        {
+            if (Everyplay.IsRecordingSupported())
+            {
+                switch (liveFaceCamMode) {
+                case "off":
+                    break;
+                case "audio":
+                    if (Everyplay.FaceCamIsRecordingPermissionGranted())
+                    {
+                        Everyplay.FaceCamSetAudioOnly(true);
+                        Everyplay.FaceCamStartSession();
+                    }
+                    break;
+                case "video":
+                    if (Everyplay.FaceCamIsRecordingPermissionGranted())
+                    {
+                        Everyplay.FaceCamSetAudioOnly(false);
+                        Everyplay.FaceCamStartSession();
+                    }
+                    break;
+                default:
+                    break;
+                }
+                Everyplay.StartRecording();
+            }
+        }
+        else if (Application.loadedLevelName == "Start")
+        {
+            if (Everyplay.IsRecording())
+            {
+                if (Everyplay.FaceCamIsSessionRunning())
+                {
+                    Everyplay.FaceCamStopSession();
+                }
+                Everyplay.StopRecording();
+                Everyplay.ShowSharingModal();
+            }
+        }
     }
 
     void OnDamage()

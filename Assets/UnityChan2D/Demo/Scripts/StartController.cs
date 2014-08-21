@@ -9,10 +9,40 @@ public class StartController : MonoBehaviour
 
     [SerializeField]
     private KeyCode enter = KeyCode.X;
+    public Joystick touchJoystick;
+    
+    private void CheckForRecordingPermission(bool granted)
+    {
+        if (granted)
+        {
+            Debug.Log("Microphone access was granted");
+        }
+        else
+        {
+            Debug.Log("Microphone access was DENIED");
+        }
+    }
+
+    void Awake()
+    {
+        Everyplay.FaceCamRecordingPermission += CheckForRecordingPermission;
+        Everyplay.FaceCamRequestRecordingPermission();
+        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
+    }
+
+    void OnDestroy()
+    {
+        Everyplay.FaceCamRecordingPermission -= CheckForRecordingPermission;
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(enter))
+        {
+            StartCoroutine(LoadStage());
+        }
+        
+        if (touchJoystick.IsFingerDown())
         {
             StartCoroutine(LoadStage());
         }

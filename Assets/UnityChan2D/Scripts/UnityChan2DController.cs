@@ -17,6 +17,10 @@ public class UnityChan2DController : MonoBehaviour
 
     private State m_state = State.Normal;
 
+    public Joystick moveJoystick;
+    public Joystick touchJoystick;
+    private int prevTapCount = 0;
+
     void Reset()
     {
         Awake();
@@ -53,8 +57,15 @@ public class UnityChan2DController : MonoBehaviour
     {
         if (m_state != State.Damaged)
         {
-            float x = Input.GetAxis("Horizontal");
-            bool jump = Input.GetButtonDown("Jump");
+            float x = moveJoystick.position.x;
+            bool jump = false;
+
+            if (touchJoystick.IsFingerDown() && prevTapCount == 0 && touchJoystick.tapCount == 1)
+            {
+                jump = true;
+            }
+            prevTapCount = touchJoystick.tapCount;
+
             Move(x, jump);
         }
     }
