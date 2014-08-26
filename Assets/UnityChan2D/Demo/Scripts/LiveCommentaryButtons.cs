@@ -6,22 +6,26 @@ public class LiveCommentaryButtons : MonoBehaviour
 {
     private const float atlasWidth = 960F;
     private const float atlasHeight = 640F;
-    public Texture2D offButtonTexture, audioButtonTexture, videoButtonTexture;
+    private Texture2D offButtonTexture, audioButtonTexture, videoButtonTexture;
     
     public string liveFaceCamMode = "off";
     
-    public List<SubsetButton> subsetButtonsList = new List<SubsetButton>();
-    public SubsetButton offButton, audioButton, videoButton;
+    private List<SubsetButton> subsetButtonsList = new List<SubsetButton>();
+    private SubsetButton offButton, audioButton, videoButton;
     
     public class SubsetButton
     {
         private Rect atScreenRect = new Rect(0, 0, 396, 190);
-        private Rect uvTexCoord = new Rect((float) 564 / atlasWidth, 
-                                           (float) (640 - 190) / atlasHeight,
-                                           (float) 396 / atlasWidth,
-                                           (float) 190 / atlasHeight);
-        public Texture2D buttonTexture;
-        public Rect clickableRect;
+        private static Rect uvTexCoord = new Rect((float) 564 / atlasWidth, 
+                                                  (float) (640 - 190) / atlasHeight,
+                                                  (float) 396 / atlasWidth,
+                                                  (float) 190 / atlasHeight);
+        
+        private Rect uvTexRect = new Rect (uvTexCoord.x, uvTexCoord.y, 
+                                           uvTexCoord.width, uvTexCoord.height);
+        
+        private Texture2D buttonTexture;
+        private Rect clickableRect;
         public string buttonMode;
         
         public SubsetButton(string buttonMode, Texture2D buttonTexture, Rect clickableRect)
@@ -35,14 +39,18 @@ public class LiveCommentaryButtons : MonoBehaviour
         {
             GUI.DrawTextureWithTexCoords (this.atScreenRect,
                                           this.buttonTexture,
-                                          new Rect(this.uvTexCoord.x, this.uvTexCoord.y, this.uvTexCoord.width, this.uvTexCoord.height), true);
+                                          uvTexRect, true);
         }
         
+		private Vector2 mousePosition = new Vector2(0, 0);
 
 #if UNITY_EDITOR
         public bool IsClickedButton()
         {
-            if (this.clickableRect.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y)))
+			mousePosition.x = Input.mousePosition.x;
+			mousePosition.y = Screen.height - Input.mousePosition.y;
+
+            if (this.clickableRect.Contains(mousePosition))
             {
                 return true;
             } else {
@@ -52,7 +60,10 @@ public class LiveCommentaryButtons : MonoBehaviour
 #else
         public bool IsClickedButton(Touch touch)
         {
-            if (this.clickableRect.Contains(new Vector2(touch.position.x, Screen.height - touch.position.y)))
+			mousePosition.x = touch.position.x;
+			mousePosition.y = Screen.height - touch.position.y;
+
+            if (this.clickableRect.Contains(mousePosition))
             {
                 return true;
             } else {

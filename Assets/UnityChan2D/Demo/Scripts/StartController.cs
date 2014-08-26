@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 [RequireComponent(typeof(AudioSource))]
 public class StartController : MonoBehaviour
 {
@@ -23,19 +24,18 @@ public class StartController : MonoBehaviour
         }
     }
 
-    void Awake()
-    {
-        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
-        if (!liveCommentaryButtons)
-        {
-            Debug.Log ("Live Commentary Buttons could not be created.");
-        }
+	void Awake()
+	{
+		LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
+		VideoThumbnailButtons videoThumbnailButtons = gameObject.AddComponent<VideoThumbnailButtons>();
+		WatchReplayButton watchReplayButton = gameObject.AddComponent<WatchReplayButton>();
 
         Everyplay.FaceCamRecordingPermission += CheckForRecordingPermission;
         Everyplay.FaceCamRequestRecordingPermission();
-    }
+	}
 
-    void OnDestroy()
+	
+	void OnDestroy()
     {
         Everyplay.FaceCamRecordingPermission -= CheckForRecordingPermission;
     }
@@ -51,7 +51,7 @@ public class StartController : MonoBehaviour
         {
             StartCoroutine(LoadStage());
         }
-    }
+	}
 
     private IEnumerator LoadStage()
     {
