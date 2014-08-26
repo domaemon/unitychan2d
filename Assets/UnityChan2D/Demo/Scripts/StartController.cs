@@ -23,22 +23,24 @@ public class StartController : MonoBehaviour
             Debug.Log("Microphone access was DENIED");
         }
     }
+    
 
-	void Awake()
-	{
-		LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
-		VideoThumbnailButtons videoThumbnailButtons = gameObject.AddComponent<VideoThumbnailButtons>();
-		WatchReplayButton watchReplayButton = gameObject.AddComponent<WatchReplayButton>();
-
+    void Awake()
+    {
+        LiveCommentaryButtons liveCommentaryButtons = gameObject.AddComponent<LiveCommentaryButtons>();
+        VideoThumbnailButtons videoThumbnailButtons = gameObject.AddComponent<VideoThumbnailButtons>();
+        WatchReplayButton watchReplayButton = gameObject.AddComponent<WatchReplayButton>();
+        
         Everyplay.FaceCamRecordingPermission += CheckForRecordingPermission;
         Everyplay.FaceCamRequestRecordingPermission();
-	}
+    }
 
-	
-	void OnDestroy()
+
+    void OnDestroy()
     {
         Everyplay.FaceCamRecordingPermission -= CheckForRecordingPermission;
     }
+
 
     void Update()
     {
@@ -51,18 +53,19 @@ public class StartController : MonoBehaviour
         {
             StartCoroutine(LoadStage());
         }
-	}
+    }
 
-    private IEnumerator LoadStage()
-    {
+ 
+   private IEnumerator LoadStage()
+   {
         foreach (AudioSource audioS in FindObjectsOfType<AudioSource>())
         {
             audioS.volume = 0.2f;
         }
-
+        
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.volume = 1;
-
+        
         audioSource.Play();
         yield return new WaitForSeconds(audioSource.clip.length + 0.5f);
         Application.LoadLevel(nextLevel);
