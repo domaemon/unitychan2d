@@ -57,6 +57,8 @@ public class Demo : MonoBehaviour
                 {
                     Everyplay.SetMetadata("live_commentary", 1);
                     Everyplay.FaceCamStopSession();
+                } else {
+                    Everyplay.SetMetadata("live_commentary", 0);
                 }
                 Everyplay.StopRecording();
                 Everyplay.ShowSharingModal();
