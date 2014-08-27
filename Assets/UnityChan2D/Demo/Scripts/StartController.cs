@@ -56,8 +56,8 @@ public class StartController : MonoBehaviour
     }
 
  
-   private IEnumerator LoadStage()
-   {
+    private IEnumerator LoadStage()
+    {
         foreach (AudioSource audioS in FindObjectsOfType<AudioSource>())
         {
             audioS.volume = 0.2f;

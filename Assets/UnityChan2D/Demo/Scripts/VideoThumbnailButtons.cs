@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using EveryplayMiniJSON;
 
 public class VideoThumbnailButtons : MonoBehaviour {    
-	private Texture2D leaderBoardContainerTexture;
+    private Texture2D leaderBoardContainerTexture;
     private Texture2D[] thumbnailTexture = new Texture2D[3];
     private string[] thumbnailUrl = new string[3];
     private Dictionary<string, object>[] featuredVideo = new Dictionary<string, object>[3];
@@ -14,48 +14,48 @@ public class VideoThumbnailButtons : MonoBehaviour {
     
     private bool isSearchDone = false;
     private WWW myWww;
-
-	private const float atlasWidth = 960F;
-	private const float atlasHeight = 640F;
+    
+    private const float atlasWidth = 960F;
+    private const float atlasHeight = 640F;
     
     private const int thumbnailWidth = 98;
     private const int thumbnailHeight = 56;
-
-	private Rect atScreenRect;
-	private Rect uvTexCoord;
-	private Rect uvTexRect;
     
-    private string searchUrl = "/games/current/videos?client_id=3af827ab042ffaa9655b27e1c271339d597efe32&offset=0&limit=3&order=-views";
-
-
-	void DrawContainer() {
-		GUI.DrawTextureWithTexCoords (atScreenRect,
-		                              leaderBoardContainerTexture,
-		                              uvTexRect, true);
-	}
-
-	void DrawButtons() {
-		for (int i = 0; i < 3; i++) {
-			if (GUI.Button (thumbnailAtScreen[i], "", thumbnailButtonStyle[i])) {
-				if (isImageReady[i]) {
-					Debug.Log ("DATA is now loaded");
-					Everyplay.PlayVideoWithDictionary(featuredVideo[i]);
-				} else {
-					Debug.Log ("DATA is not loaded yet");
-				}
-			}
-		}
-	}
-
-	void OnGUI() {
-		if(Event.current.type.Equals(EventType.Repaint))
-		{
-			DrawContainer();
-		}
-		DrawButtons();
+    private Rect atScreenRect;
+    private Rect uvTexCoord;
+    private Rect uvTexRect;
+    
+    private string searchUrl = "/games/current/videos?client_id=3af827ab042ffaa9655b27e1c271339d597efe32&offset=0&limit=3&order=popularity";
+    
+    
+    void DrawContainer() {
+        GUI.DrawTextureWithTexCoords (atScreenRect,
+                                      leaderBoardContainerTexture,
+                                      uvTexRect, true);
     }
     
-	
+    void DrawButtons() {
+        for (int i = 0; i < 3; i++) {
+            if (GUI.Button (thumbnailAtScreen[i], "", thumbnailButtonStyle[i])) {
+                if (isImageReady[i]) {
+                    Debug.Log ("DATA is now loaded");
+                    Everyplay.PlayVideoWithDictionary(featuredVideo[i]);
+                } else {
+                    Debug.Log ("DATA is not loaded yet");
+                }
+            }
+        }
+    }
+
+    void OnGUI() {
+        if(Event.current.type.Equals(EventType.Repaint))
+        {
+            DrawContainer();
+        }
+        DrawButtons();
+    }
+    
+ 
     void SearchRequest() {
         Everyplay.MakeRequest("get",
                               searchUrl,
@@ -82,7 +82,7 @@ public class VideoThumbnailButtons : MonoBehaviour {
                                   // act accordingly
                               });
     }
-	
+    
     void SetThumbnailButtonStyle() {
         for (int i = 0; i < 3; i++) {
             thumbnailButtonStyle[i] = new GUIStyle();

@@ -55,6 +55,7 @@ public class Demo : MonoBehaviour
             {
                 if (Everyplay.FaceCamIsSessionRunning())
                 {
+                    Everyplay.SetMetadata("live_commentary", 1);
                     Everyplay.FaceCamStopSession();
                 }
                 Everyplay.StopRecording();
